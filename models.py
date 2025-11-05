@@ -1,9 +1,4 @@
-"""
-Description:
-Deep CNN with Residual Blocks, Multi-Scale Convolution, 
-Squeeze-Excitation (SE) attention, and CBAM (Channel + Spatial attention)
-Designed for learning bilirubin-driven discriminative skin patterns.
-"""
+
 
 import tensorflow as tf
 from tensorflow.keras import layers, models, backend as K
