@@ -1,121 +1,126 @@
-Dermoscopic Skin Lesion Classification using Deep Learning
 
-This repository contains the implementation of a deep learning based framework for automated dermoscopic image classification. The project focuses on leveraging Convolutional Neural Networks and transfer learning to classify skin lesions into multiple categories using the HAM10000 dataset.
+# Dermoscopic Skin Lesion Classification using Deep Learning
 
-The system aims to assist dermatologists by providing accurate and robust AI-based diagnostic support for early detection of melanoma and other skin lesions.
+This repository presents a deep learning framework for automated dermoscopic image analysis and skin lesion classification using the **HAM10000 dataset**. The project evaluates both a custom CNN and multiple transfer learning architectures, and introduces an **ensemble strategy** to maximize diagnostic accuracy.
 
-Features
+---
 
-Multi-model deep learning pipeline
+## 🚀 Project Highlights
 
-Custom CNN architecture
+* Custom CNN baseline model
+* Transfer learning using:
 
-Transfer learning using:
+  * **DenseNet121**
+  * **EfficientNetB0 / EfficientNetB1**
+  * **InceptionV3**
+  * (Additional experiments: ResNet50, Xception, VGG16)
+* Advanced data augmentation pipeline
+* End-to-end training and fine-tuning
+* ROC-AUC, Confusion Matrix, F1-score evaluation
+* Weighted ensemble model for best results
 
-DenseNet121
+---
 
-EfficientNetB0 & EfficientNetB1
+## 📂 Dataset: HAM10000
 
-InceptionV3
+Seven skin lesion types:
 
-ResNet50 / Xception / VGG16 (extended experiments)
+| Label | Class                         |
+| ----- | ----------------------------- |
+| akiec | Actinic keratoses             |
+| bcc   | Basal cell carcinoma          |
+| bkl   | Benign keratosis-like lesions |
+| df    | Dermatofibroma                |
+| mel   | Melanoma                      |
+| nv    | Melanocytic nevi              |
+| vasc  | Vascular lesions              |
 
-Data augmentation for improved generalization
+---
 
-Evaluation using confusion matrix, ROC-AUC, F1-score
+## 🧠 Model Architectures
 
-Ensemble learning (simple & weighted averaging) for final prediction
+### Custom CNN
 
-HAM10000 dermoscopic dataset preprocessing + EDA
+* Conv2D + BatchNorm blocks
+* AveragePooling
+* Dropout regularization
+* Dense layers + Softmax classifier
 
-Dataset
+### Transfer Learning Models
 
-Dataset: HAM10000 (Human Against Machine)
-Source: Dermatoscopic images of pigmented skin lesions
-Classes (7 total):
+* Pretrained on ImageNet
+* GlobalAveragePooling + Dense layers
+* Fine-tuned end-to-end
 
-Melanoma (mel)
+### Ensemble Method
 
-Melanocytic nevi (nv)
+* Simple averaging and weighted averaging of model predictions
+* Best performance achieved by **weighted ensemble**
 
-Basal cell carcinoma (bcc)
+---
 
-Actinic keratoses (akiec)
+## 📊 Results
 
-Benign keratosis-like lesions (bkl)
+| Model                       | Micro-AUC   | Notes                         |
+| --------------------------- | ----------- | ----------------------------- |
+| DenseNet121                 | ~0.9637     | Best single model             |
+| EfficientNetB1              | ~0.9007     | Strong precision              |
+| InceptionV3                 | ~0.8957     | Struggled on minority classes |
+| Custom CNN                  | ~0.70       | Baseline                      |
+| **Weighted Ensemble**       | **~0.9588** | Best overall                  |
+| **Melanoma AUC (Ensemble)** | **0.9334**  | Critical clinical class       |
 
-Dermatofibroma (df)
+---
 
-Vascular lesions (vasc)
+## ⚙️ Training Setup
 
-Architecture Overview
-Custom CNN
+* Input size: `75 x 100 x 3`
+* Optimizer: **Adam (lr = 0.001)**
+* Loss: **Categorical Cross-entropy**
+* Epochs: **50–100**
+* Augmentations: rotation, flip, shift, zoom, brightness
+* Early stopping + LR scheduler
 
-Multiple Conv2D + BatchNorm blocks
+---
 
-AveragePooling and Dropout for regularization
+## ✅ How to Run
 
-Dense classifier with Softmax
+```bash
+git clone https://github.com/yourusername/skin-lesion-classification.git
+cd skin-lesion-classification
 
-Pretrained CNNs (Transfer Learning)
+pip install -r requirements.txt
 
-Each pretrained model includes:
+python train.py
+```
 
-ImageNet weights
+---
 
-Frozen layers initially, then fine-tuned end-to-end
+## 📎 Tech Stack
 
-GlobalAveragePooling + Dense classifier + Dropout
+* Python 3.10
+* TensorFlow / Keras
+* NumPy, Pandas, Matplotlib
+* CUDA / cuDNN (for GPU)
+* TensorBoard
 
-Ensemble Strategy
+---
 
-Simple average of probabilities
+## 🔮 Future Enhancements
 
-Weighted average for best final performance
+* Explainable AI (Grad-CAM, LIME, SHAP)
+* Federated learning for privacy-safe medical AI
+* Multi-modal models (metadata + image)
+* Mobile deployment for real-time CAD tools
+
+---
+
+## 🙏 Acknowledgements
+
+* HAM10000 dataset authors
+* TensorFlow & open-source community
+* Research guidance from **Dr. Arpan Garai**
+
+---
 
 
-Tech Stack
-
-Python 3.10
-
-TensorFlow / Keras
-
-CUDA 11.x / cuDNN (GPU training)
-
-NumPy, Pandas, Matplotlib
-
-TensorBoard (training logs)
-
-Training Details
-
-Image size: 75 x 100 x 3
-
-Loss: Categorical Cross-Entropy
-
-Optimizer: Adam (lr=0.001)
-
-Epochs: 50-100
-
-Data Augmentation: rotation, flip, zoom, brightness shifts
-
-Early stopping + ReduceLROnPlateau
-
-Future Work
-
-Explainable AI (Grad-CAM, SHAP, LIME)
-
-Temporal lesion-progression modeling
-
-Federated learning for privacy-safe medical AI
-
-Mobile deployment for point-of-care diagnostics
-
-Multi-modal input (clinical metadata + images)
-
-Acknowledgements
-
-HAM10000 Dataset Authors
-
-TensorFlow & Open-Source ML Community
-
-Project Supervisor: Dr. Arpan Garai
